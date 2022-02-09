@@ -10,7 +10,7 @@ SymBlog est un projet de Blog réalisé sous symfony 4.4 il utilise le théme FL
 
 
 # Auteurs
-Listez le(s) auteur(s) du projet ici !
+
 * **Marc Raes** _alias_ [@marcRaes](https://github.com/marcRaes)
 
 
