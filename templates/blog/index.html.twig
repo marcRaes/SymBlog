@@ -1,23 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BlogController!{% endblock %}
+{% block title %}
+	Hello BlogController!
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('CSS/index.css') }}">
+{% endblock %}
 
 {% block body %}
+	<h1>Nos articles</h1>
 
-<section class="articles">
+	<section class="articles d-flex flex-wrap">
 
-    {% for article in articles %}
-        <article>
-            <h2>{{ article.title }}</h2>
-            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}</div>
-            <div class="content">
-                <img src="{{ article.image }}" alt="">
-                {{ article.content | raw }}
-                <a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-primary">Lire la suite</a>
-            </div>
-        </article>
-    {% endfor %}
+		{% for article in articles %}
+			<article class="m-2" style="width: 18rem;">
+				<div class="card p-2">
+					<img src="{{ article.image }}" class="card-img-top" alt="">
+					<div class="card-body">
+						<h5 class="card-title">{{ article.title }}</h2>
+						<div class="card-text content w-100 fs-6">
+							{{ article.content | raw }}
+						</div>
+						<div class="d-flex justify-content-between">
+							<a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-info">Lire la suite</a>
+							<a href="" class="like btn btn-outline-info align-self-center">
+								<i class="fa-solid fa-thumbs-up"></i>
+								J'aime
+							</a>
+						</div>
+					</div>
+				</div>
+			</article>
+		{% endfor %}
 
-</section>
-
+	</section>
 {% endblock %}

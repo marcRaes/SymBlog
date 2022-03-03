@@ -1,50 +1,73 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('CSS/show.css') }}">
+{% endblock %}
+
 {% block body %}
-    <article>
-        <h2>{{ article.title }}</h2>
-        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y à H:i') }} dans la catégorie {{ article.category.title }}</div>
-        <div class="content">
-            <img src="{{ article.image }}" alt="">
-            {{ article.content | raw }}
-        </div>
-        <a href="{{ path('blog_edit', {'id': article.id}) }}" class="btn btn-primary">Modifier l'article</a>
-    </article>
+	<article>
+		<h2>{{ article.title }}</h2>
 
-    <section id="commentaires">
-        <h1>{{ article.comments | length }} commentaires : </h1>
-        {% for comment in article.comments %}
-            <div class="comment">
-                <div class="col-3">
-                    {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
-                </div>
-                <div class="col">
-                    {{ comment.content | raw }}
-                </div>
-            </div>
-        {% endfor %}
+		<div class="metadata">
+			Ecrit le
+			<span class="fw-bold">{{ article.createdAt | date('d/m/Y à H:i') }}</span>
+			dans la catégorie
+			<span class="fw-bold">{{ article.category.title }}</span>
+		</div>
 
-        {% if app.user %}
-            {{ form_start(commentForm) }}
+		<div class="content">
+			<img src="{{ article.image }}" alt="">
+			{{ article.content | raw }}
+		</div>
 
-            {{ form_row(commentForm.author, {
+		<a href="{{ path('blog_edit', {'id': article.id}) }}" class="btn btn-primary my-4">Modifier l'article</a>
+	</article>
+
+	<section id="commentaires">
+		<h1>
+			{{ article.comments | length }}
+			commentaires :
+		</h1>
+
+		<div class="border border-secondary rounded overflow-scroll p-2 mb-2" style="max-height: 20em;">
+			{% for comment in article.comments %}
+				<div class="comment">
+					<div class="col-3">
+						{{ comment.author }}
+						(<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
+					</div>
+					<div class="col">
+						{{ comment.content | raw }}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		{% if app.user %}
+			{{ form_start(commentForm) }}
+
+			{{ form_row(commentForm.author, {
+				'label': "Utilisateur",
                 'attr': {
-                    'placeholder': "Votre nom"
+                    'placeholder': "Votre nom",
+					'class': "mb-2"
                 }
             }) }}
 
-            {{ form_row(commentForm.content, {
+			{{ form_row(commentForm.content, {
+				'label': "Commentaire",
                 'attr': {
-                    'placeholder': "Votre commentaire"
+                    'placeholder': "Votre commentaire",
+					'class': "mb-2"
                 }
             }) }}
 
-            <button type="submit" class="btn btn-success">Commenter</button>
+			<button type="submit" class="btn btn-success mb-2">Commenter</button>
 
-            {{ form_end(commentForm)}}
-        {% else %}
-            <h2>Veuillez vous connecter pour laisser un commentaire</h2>
-            <a href="{{path('security_login') }}" class="btn btn-primary">Connexion</a>
-        {% endif %}
-    </section>
+			{{ form_end(commentForm)}}
+		{% else %}
+			<h2>Veuillez vous connecter pour laisser un commentaire</h2>
+			<a href="{{path('security_login') }}" class="btn btn-primary mb-3">Connexion</a>
+		{% endif %}
+	</section>
 {% endblock %}

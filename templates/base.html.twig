@@ -7,39 +7,49 @@
 			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
-		{% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> {% block stylesheets %}{% endblock %}
 		</head>
 		<body>
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="{{ path('home') }}">SymBlog</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-				</button>
+				<div class="container-fluid">
+					<a class="navbar-brand" href="{{ path('home') }}">SymBlog</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
-				<div class="collapse navbar-collapse" id="navbarColor01">
-					<ul class="navbar-nav me-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('blog') }}">Articles</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
-						</li>
+					<div class="collapse navbar-collapse" id="navbarColor01">
+						<ul class="navbar-nav me-auto">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('blog') }}">Articles</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
+							</li>
+						</ul>
+						<ul class="nav me-sm-2">
 
-						<li class="nav-item">
 							{% if not app.user %}
-								<a href="{{ path('security_login') }}" class="nav-link">Connexion</a>
+								<li class="nav-item">
+									<a href="{{ path('security_registration') }}" class="btn btn-outline-light me-3">Inscription</a>
+								</li>
+								<li class="nav-item">
+									<a href="{{ path('security_login') }}" class="btn btn-light">Connexion</a>
+								</li>
 							{% else %}
-								<a href="{{ path('security_logout') }}" class="nav-link">Déconnexion</a>
+								<li class="nav-item">
+									<a href="{{ path('security_logout') }}" class="btn btn-outline-light">Déconnexion</a>
+								</li>
 							{% endif %}
-						</li>
-					</ul>
+
+
+						</ul>
+					</div>
 				</div>
-			</div>
-			</nav>
-			<div class="container">
-				{% block body %}{% endblock %}
-			</div>
-			{% block javascripts %}{% endblock %}
+			</body>
 		</body>
 	</html>
+</nav>
+<div class="container"> {% block body %}{% endblock %}
+	</div>
+	{% block javascripts %}{% endblock %}
+</body></html>

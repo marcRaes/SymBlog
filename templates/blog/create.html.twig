@@ -4,30 +4,53 @@
 
 {% block body %}
 
-    {% if editMode %}
-        <h1>Modification de l'article !</h1>
-    {% else %}
-        <h1>Création d'un article !</h1>
-    {% endif %}
+	{% if editMode %}
+		<h1>Modification de l'article !</h1>
+	{% else %}
+		<h1>Création d'un article !</h1>
+	{% endif %}
 
-    {{ form_start(formArticle) }}
+	{{ form_start(formArticle) }}
 
-    {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }}
+	{{ form_row(formArticle.title, {
+		'label': "Titre de l'article",
+		'attr': {
+			'placeholder': "Titre de l'article",
+			'class': "mb-2"
+        }
+    }) }}
 
-    {{ form_row(formArticle.category) }}
+	{{ form_row(formArticle.category, {
+		'label': "Catégorie",
+		'attr': {
+			'class': "mb-2"
+		}
+    }) }}
 
-    {{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article"}}) }}
+	{{ form_row(formArticle.content, {
+		'label': "Contenu de l'article",
+		'attr': {
+			'placeholder': "Contenu de l'article",
+			'height': 75,
+			'class': "mb-2"
+		}
+	}) }}
 
-    {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }}
+	{{ form_row(formArticle.image, {
+        'attr': {
+            'placeholder': "URL de l'image",
+			'class': "mb-2"
+        }
+    }) }}
 
-    <button type="submit" class="btn btn-success">
-        {% if editMode %}
-            Enregistrer les modifications
-        {% else %}
-            Ajouter l'article
-        {% endif %}
-    </button>
+	<button type="submit" class="btn btn-success mt-3">
+		{% if editMode %}
+			Enregistrer les modifications
+		{% else %}
+			Ajouter l'article
+		{% endif %}
+	</button>
 
-    {{ form_end(formArticle) }}
+	{{ form_end(formArticle) }}
 
 {% endblock %}

@@ -1,0 +1,8 @@
+.content p:not(:first-child) {
+    display: none;
+}
+
+.like {
+    font-size: 10px;
+    font-weight: bold;
+}
