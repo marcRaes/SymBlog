@@ -54,9 +54,15 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,6 +156,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

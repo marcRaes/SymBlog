@@ -19,8 +19,8 @@
 					<img src="{{ article.image }}" class="card-img-top" alt="">
 					<div class="card-body">
 						<h5 class="card-title">{{ article.title }}</h2>
-						<div class="card-text content w-100 fs-6">
-							{{ article.content | raw }}
+						<div class="card-text">
+							{{ article.description | raw }}
 						</div>
 						<div class="d-flex justify-content-between">
 							<a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-info">Lire la suite</a>

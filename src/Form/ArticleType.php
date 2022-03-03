@@ -19,6 +19,7 @@ class ArticleType extends AbstractType
                 'class' =>  Category::class,
                 'choice_label'  =>  'title'
             ])
+            ->add('description')
             ->add('content')
             ->add('image');
     }

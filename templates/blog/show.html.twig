@@ -16,7 +16,10 @@
 		</div>
 
 		<div class="content">
-			<img src="{{ article.image }}" alt="">
+			<div class="mt-3">
+				{{ article.description | raw }}
+			</div>
+			<img src="{{ article.image }}" alt="" class="mb-2">
 			{{ article.content | raw }}
 		</div>
 
