@@ -24,9 +24,16 @@
 						</div>
 						<div class="d-flex justify-content-between">
 							<a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-info">Lire la suite</a>
-							<a href="" class="like btn btn-outline-info align-self-center">
-								<i class="fa-solid fa-thumbs-up"></i>
-								J'aime
+							<a href="{{ path('article_like', {'id': article.id}) }}" class="like btn btn-outline-info align-self-center js-like">
+
+								{% if app.user and article.isLikedByUser(app.user) %}
+									<i class="fas fa-thumbs-up"></i>
+								{% else %}
+									<i class="far fa-thumbs-up"></i>
+								{% endif %}
+
+								<span class="js-likes">{{ article.likes | length }}</span>
+								<span class="js-label">J'aime</span>
 							</a>
 						</div>
 					</div>
@@ -35,4 +42,10 @@
 		{% endfor %}
 
 	</section>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+	<script src="{{ asset('JS/index.js') }}"></script>
 {% endblock %}

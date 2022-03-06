@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -53,6 +54,11 @@ class Article
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="article", orphanRemoval=true)
      */
     private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="article")
+     */
+    private $likes;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -160,6 +166,36 @@ class Article
         return $this;
     }
 
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getArticle() === $this) {
+                $like->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -170,5 +206,20 @@ class Article
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * Permet de savoir si cet article est "liké" par un utilisateur
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) return true;
+        }
+
+        return false;
     }
 }

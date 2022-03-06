@@ -4,16 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\PostLike;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
+use App\Repository\PostLikeRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
@@ -104,5 +103,59 @@ class BlogController extends AbstractController
             'article'   => $article,
             'commentForm'  =>  $form->createView()
         ]);
+    }
+
+    /**
+     * Permet de liker ou unliker un article
+     *
+     * @Route("/article/{id}/like", name="article_like")
+     * 
+     * @param Article $article
+     * @param ObjectManager $manager
+     * @param PostLikeRepository $likeRepo
+     * @return Response
+     */
+    public function like(Article $article, PostLikeRepository $likeRepo): Response
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        // Récupére l'utilisateur
+        $user = $this->getUser();
+
+        // Si l'utilisateur n'est pas connecté
+        if (!$user) return $this->json([
+            'code' => 403,
+            'message' => 'Unauthorized'
+        ], 403);
+
+        // Si l'utilisateur à déja aimé l'article => Suppression du Like
+        if ($article->isLikedByUser($user)) {
+            $like = $likeRepo->findOneBy([
+                'article' => $article,
+                'user' => $user
+            ]);
+
+            $manager->remove($like);
+            $manager->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Like bien supprimé',
+                'likes' => $likeRepo->count(['article' => $article])
+            ], 200);
+        }
+
+        $like = new PostLike();
+        $like->setArticle($article)
+            ->setUser($user);
+
+        $manager->persist($like);
+        $manager->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Ca marche bien',
+            'likes' => $likeRepo->count(['article' => $article])
+        ], 200);
     }
 }
