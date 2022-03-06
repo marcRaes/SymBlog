@@ -8,6 +8,7 @@ SymBlog est un projet de Blog réalisé sous symfony 4.4 il utilise le théme FL
 * [Boostrap](https://getbootstrap.com/) - Framework CSS (front-end)
 * [VSCode](https://code.visualstudio.com/) - Editeur de textes
 * [FakerPHP](https://fakerphp.github.io/) - Faker est une bibliothèque PHP qui génère de fausses données
+* [Axios](https://github.com/axios/axios) - Axios est une bibliothèque JavaScript très pratique pour effectuer des requêtes HTTP
 
 
 # Auteurs
